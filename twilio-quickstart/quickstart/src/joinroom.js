@@ -1,4 +1,6 @@
 'use strict';
+const Video = require('twilio-video');
+const {VideoRoomMonitor} = require('@twilio/video-room-monitor')
 
 const { connect, createLocalVideoTrack, Logger } = require('twilio-video');
 const { isMobile } = require('./browser');
@@ -234,6 +236,11 @@ async function joinRoom(token, connectOptions) {
 
   // Make the Room available in the JavaScript console for debugging.
   window.room = room;
+
+  Video.connect(token).then((room) => {
+    VideoRoomMonitor.registerVideoRoom(room);
+    VideoRoomMonitor.openMonitor();
+  });
 
   // Handle the LocalParticipant's media.
   participantConnected(room.localParticipant, room);
