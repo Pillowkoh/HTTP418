@@ -1,6 +1,9 @@
 'use strict';
 
-const { isSupported } = require('twilio-video');
+const { Video, isSupported } = require('twilio-video');
+const {VideoRoomMonitor} = require('@twilio/video-room-monitor')
+
+
 
 const { isMobile } = require('./browser');
 const joinRoom = require('./joinroom');
@@ -84,8 +87,14 @@ async function selectAndJoinRoom(error = null) {
     // Fetch an AccessToken to join the Room.
     const response = await fetch(`/token?identity=${identity}`);
 
+    // alert('hello')
+
     // Extract the AccessToken from the Response.
     const token = await response.text();
+    // Video.connect(token).then((room) => {
+    //   VideoRoomMonitor.registerRoom(room);
+    //   VideoRoomMonitor.openMonitor();
+    //  });
 
     // Add the specified audio device ID to ConnectOptions.
     connectOptions.audio = { deviceId: { exact: deviceIds.audio } };
